@@ -18,13 +18,13 @@ def folder_paths():
     default = input('Default folder_paths? (Yes or no): ')
     if default == 'Yes':
         #set path for original raster masks
-        og_rasters_folder = '/Users/christianabys/Desktop/School/Maryland/Research/Wheat_Forecast/Mask/Russia/'
+        og_rasters_folder = 'folder path for masking rasters'
         #set path for storing ediited rasters
-        raster_process_folder = '/Users/christianabys/Desktop/School/Maryland/Research/Wheat_Forecast/Mask/vectorized_mask/raster_process/'
+        raster_process_folder = 'folder to store processed rasters'
         #set path for storing polygonized data and polygons
-        poly_process_folder = '/Users/christianabys/Desktop/School/Maryland/Research/Wheat_Forecast/Mask/vectorized_mask/polygonized/'
+        poly_process_folder = 'folder path to store polygonized rasters'
         #final outputs
-        final_outputs = '/Users/christianabys/Desktop/School/Maryland/Research/Wheat_Forecast/Mask/vectorized_mask/final_outputs/'
+        final_outputs = 'folder path to to store final outputs'
     else: 
         og_rasters_folder = input('Enter filepath for folder containing original masks:') + '/'
         raster_process_folder = input('Enter filepath for empty folder to store processed rasters ') + '/'
@@ -83,9 +83,9 @@ def select_param(tif_save):
 def oblast_select(id_select):
     print('Oblast Select Function')
     print('ID Options: 77 = Volgograd ', )
-    ukr_rus_dat = pd.read_csv("/Users/christianabys/Desktop/School/Maryland/Research/Wheat_Forecast/master/ukr_rus_master.csv")
-    rus_shp = gpd.read_file("/Users/christianabys/Desktop/School/Maryland/Research/Wheat_Forecast/data/shapefile/Russia_admin_clean/rus_admin_cl.shp")
-    ukr_shp = gpd.read_file("/Users/christianabys/Desktop/School/Maryland/Research/Wheat_Forecast/data/shapefile/Ukraine_admin/regions.shp")
+    ukr_rus_dat = pd.read_csv("/master/ukr_rus_master.csv")
+    rus_shp = gpd.read_file("shapefile/Russia_admin_clean/rus_admin_cl.shp")
+    ukr_shp = gpd.read_file("shapefile/Ukraine_admin/regions.shp")
     ukr_shp['ID'] = ukr_shp['ID'] + 100
     ukr_shp = ukr_shp[['ID','geometry']]
     rus_shp = rus_shp.rename(columns = {"ID_1":"ID"})
@@ -97,7 +97,7 @@ def oblast_select(id_select):
     m = x[['ID','Country','Oblast-eng','geometry']].drop_duplicates()
     #feature collection for ee conversion
     selected_oblast = m[m['ID'] == id_select]
-    selected_oblast.to_file('/Users/christianabys/Desktop/School/Maryland/Research/Wheat_Forecast/Mask/vectorized_mask/shapefile_select/selected_oblast.shp')
+    selected_oblast.to_file('vectorized_mask/shapefile_select/selected_oblast.shp')
     print('Oblast Select Completed')
     print('|----------------------------------------|')
     return selected_oblast
@@ -136,7 +136,7 @@ def clip_raster_with_shape(years_ls,raster_process_folder,tif_save):
         input_raster = gdal.Open(folder_input + raster_name)
         output_name = raster_name.replace('_warp.tif','') + '_clipped' + tif_save
         output_raster = folder_output + output_name
-        shape_clip = '/Users/christianabys/Desktop/School/Maryland/Research/Wheat_Forecast/Mask/subselect_shapefile/oblast_select.shp'
+        shape_clip = 'Mask/subselect_shapefile/oblast_select.shp'
         OutTile = gdal.Warp(output_raster,input_raster,cutlineDSName = shape_clip,dstSRS='EPSG:4326')
     print('Clip Raster Completed')
     print('|----------------------------------------|')
